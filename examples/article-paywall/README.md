@@ -6,5 +6,8 @@ You can view the live example [here](https://sdk-example.getcode.com/).
 
 We've deliberately kept this example simple to make it easy to understand. So, no fancy React / Vue / Angular / Svelte / etc. Just plain old HTML (EJS), CSS, and JavaScript.
 
+![image](https://github.com/code-wallet/code-sdk-examples/assets/623790/84bbca78-79f8-43cf-9bd6-a58c195a7461)
+
+
 ## Quick Start
 You can either run `npm run dev` if you have Node.js and npm installed locally, or you can run `make run-local` to run the example in a docker container.
