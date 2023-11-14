@@ -1,0 +1,135 @@
+<script type="module">
+  document.addEventListener('DOMContentLoaded', function() {
+    function setOffset(){
+      // Check if the URL has the expected hash pattern
+      if (window.location.hash.includes('scrollPos=')) {
+          // Extract the scroll position value from the hash
+          const scrollPos = parseInt(window.location.hash.split('=')[1], 10);
+
+          // Set the scroll position
+          if (!isNaN(scrollPos)) {
+              window.scrollTo(0, scrollPos);
+          }
+      }
+    }
+    setOffset();
+    setTimeout(() => setOffset(), 100); // Sometimes the first call doesn't work
+
+    (function move(){
+      // Find the element with class 'fade-out'
+      const fadeOutElem = document.querySelector('.fade-out-gradient');
+
+      // If fadeOutElem is found, start the process
+      if (fadeOutElem) {
+        // Get the parent of fadeOutElem
+        const parent = fadeOutElem.parentElement;
+
+        // Find the div with id 'paid-content'
+        const paidContentDiv = document.querySelector('#paid-container');
+
+        // If the paidContentDiv is not found, exit
+        if (!paidContentDiv) return;
+
+        // Move all elements that come after the 'fade-out' element to 'paid-content' div
+        let currentElem = fadeOutElem.nextElementSibling;
+        while (currentElem) {
+          const next = currentElem.nextElementSibling;
+          paidContentDiv.appendChild(currentElem);
+          currentElem = next;
+        }
+      }
+    })();
+
+    setTimeout(function unlock() {
+      document.getElementById('paid-container').classList.add('fade-in');
+      document.getElementById('purchase-container').remove();
+      document.querySelector('.fade-out-gradient').classList.remove('fade-out-gradient');
+
+      // Add a script tag for to the document
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.src = 'https://platform.twitter.com/widgets.js';
+      document.body.appendChild(script);
+
+    }, 500)
+
+  });
+</script>
+
+
+<div class="mx-auto max-w-7xl">
+  <!-- Article Content -->
+  <div class="mx-auto max-w-4xl">
+    <%- content.html %>
+
+    <!-- Paid Content -->
+    <div id="paid-container"></div>
+  </div>
+
+  <!-- Purchase Container -->
+  <div id="purchase-container" class="p-2 w-full max-w-lg mx-auto">
+    <div class="bg-white rounded-2xl py-10 text-center shadow-md ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+      <div class="mx-auto max-w-sm">
+        <p class="text-lg font-light mb-10">
+          Unlock the rest of this article <br> for $<%= item.price %>
+        </p>
+
+        <!-- Payment Button (mounted by the script above) -->
+        <div id="button-container" style="height: 3.75rem;"></div>
+
+        <p class="mt-6 text-xs leading-5 text-gray-600">Don’t have the Code Wallet app yet? <br>
+          <a href="https://www.getcode.com/#Download" target="_blank" class="underline">Download It Now</a> and get your first $1 free</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+#paid-container {
+  display: none;
+}
+
+#paid-container.fade-in {
+  display: block;
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-out-gradient {
+  position: relative;
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-out-gradient::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, #f3f4f6);
+  pointer-events: none;
+  z-index: 1; 
+}
+
+.twitter-tweet.twitter-tweet-rendered {
+    margin: auto;
+    margin-bottom: 30px !important;
+}
+
+blockquote {
+  padding-left: 20px;
+  font-style: italic;
+  font-family: serif;
+  font-size: x-large;
+  border-left: 10px solid #e1e4ea;
+  margin-left: 10px;
+}
+</style>

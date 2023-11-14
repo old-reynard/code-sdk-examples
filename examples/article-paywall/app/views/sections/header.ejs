@@ -1,0 +1,85 @@
+<div class="bg-gray-900">
+  <header class="absolute inset-x-0 top-0 z-50">
+    <nav class="flex items-center justify-between px-6 sm:px-10 max-w-7xl mx-auto" aria-label="Global">
+      <div class="flex lg:flex-1">
+        <a href="https://code-wallet.github.io/code-sdk/docs/guide/introduction.html" class="py-3 sm:py-4 px-4 sm:px-6 bg-black rounded-b-lg sm:rounded-b-2xl delay-show-3">
+            <span class="h-5 sm:h-7 w-5 sm:w-7 text-white inline-block">
+                <%- include('logo') %>
+            </span>
+            <span class="inline-block align-middle text-white text-xs sm:text-sm font-semibold ml-2">Code SDK Demo</span>
+        </a>
+      </div>
+      <div class="flex lg:flex-1 lg:justify-end">
+        <a href="https://code-wallet.github.io/code-sdk/docs/guide/introduction.html" class="text-sm font-semibold leading-6 text-white delay-show-4">
+            See the Docs 
+            <span aria-hidden="true" class="arrow w-2.5 h-2.5">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 9 10"><path d="M 7.01 3.989 L 8.01 3.989 L 8.01 5.864 L 7.01 5.864 Z" fill="rgb(0,0,0)"/><path d="M 6.643 5 L 3.061 1.262 L 4.232 0.039 L 8.986 5 L 4.232 9.961 L 3.061 8.738 L 6.643 5 Z" fill="white"/></svg>
+            </span>
+        </a>
+      </div>
+    </nav>
+  </header>
+
+
+  <div class="relative isolate overflow-hidden pt-14">
+    <img src="/static/hero.png" alt="" class="absolute inset-0 -z-10 h-full w-full object-cover">
+    <div class="absolute inset-0 bg-gradient-to-t from-black -z-10"></div>
+
+    <div class="mx-auto max-w-7xl py-24 sm:py-32 lg:py-32 px-6 sm:px-10">
+        <h1 class="sm:text-7xl md:text-[90px] text-6xl font-bold tracking-tight
+        text-white max-w-xs sm:max-w-sm md:max-w-md delay-show-2">Early Release of the Code
+        SDK</h1>
+    </div>
+  </div>
+</div>
+
+
+<style>
+.delay-show-1 {
+    display: inline-block;
+    opacity: 0;
+    animation: fade-slide 0.3s ease-out 0s forwards;
+}
+
+.delay-show-2 {
+    display: inline-block;
+    opacity: 0;
+    animation: fade-slide 0.3s ease-out 0.3s forwards;
+}
+
+.delay-show-3 {
+    display: inline-block;
+    opacity: 0;
+    animation: fade-slide 0.3s ease-out 0.5s forwards;
+}
+
+.delay-show-4 {
+    display: inline-block;
+    opacity: 0;
+    animation: fade-slide 0.3s ease-out 0.8s forwards;
+}
+
+@keyframes fade-slide {
+    0% {
+        opacity: 0;
+        transform: translateY(-2.5vh);
+    }
+    40% {
+        transform: translateY(0vh);
+    }
+    100% {
+        transform: translateY(-0.2vh);
+        opacity: 1;
+    }
+}
+
+
+a span.arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+}
+
+a:hover span.arrow {
+    transform: translateX(5px);
+}
+</style>

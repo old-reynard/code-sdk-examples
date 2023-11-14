@@ -1,0 +1,143 @@
+<script type="module">
+  import code from 'https://js.getcode.com/v1/';
+
+  // Passing the backend (EJS) item details to the frontend (JS)
+  const item = JSON.parse(`<%- JSON.stringify({id:item.id, price:item.price}) %>`);
+  const config = JSON.parse(`<%- JSON.stringify(config) %>`);
+
+  // Create the payment request button
+  const { button } = code.elements.create('button', {
+    currency: 'usd',
+    destination: config.destination,
+    amount: item.price,
+    confirmParams: {
+      success: {
+        url: '/article/full/{{INTENT_ID}}',
+      }
+    }
+  });
+
+  // Wait for the button to be clicked
+  button.on('invoke', async () => {
+
+    // Get a payment intent from our own server
+    const res = await fetch(`/payment/create-intent/${item.id}`, { method: 'POST' });
+    const { clientSecret } = await res.json();
+
+    // Update the button with the new client secret so that our server
+    // can be notified once the payment is complete.
+    button.update({ 
+      clientSecret,
+      confirmParams: {
+        success: {
+          url: '/article/full/{{INTENT_ID}}#scrollPos=' + window.scrollY,
+        }
+      }
+     });
+
+  });
+
+  button.on('success', async (event) => {
+    // If we're in this function, the payment was successful and we have not
+    // opened a new tab.
+    console.log('success', event);
+
+    const { intent } = event;
+
+    // Load the article content in place, without a redirect
+    const res = await fetch(`/article/paid/${intent}`, { method: 'GET' });
+    const body = await res.text();
+
+    // Remove the purchase container
+    document.getElementById('purchase-container').remove();
+
+    // Add the paid content
+    document.getElementById('paid-container').innerHTML = body;
+    document.getElementById('paid-container').classList.add('fade-in');
+
+    // Remove the fade-out gradient from any elements that have it
+    document.querySelectorAll('.fade-out-gradient').forEach(el => {
+      el.classList.remove('fade-out-gradient');
+    });
+
+    // Add a script tag for to the document
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://platform.twitter.com/widgets.js';
+    document.body.appendChild(script);
+
+    // Prevent navigation, since we're loading the content in place
+    return true;
+  });
+
+  button.mount('#button-container');
+</script>
+
+<div class="mx-auto max-w-7xl">
+  <!-- Article Content -->
+  <div class="mx-auto max-w-4xl">
+    <%- content.html %>
+
+    <!-- Paid Content -->
+    <div id="paid-container"></div>
+  </div>
+
+  <!-- Purchase Container -->
+  <div id="purchase-container" class="p-2 w-full max-w-lg mx-auto">
+    <div class="bg-white rounded-2xl py-10 text-center shadow-md ring-1 ring-inset ring-gray-900/5 lg:flex lg:flex-col lg:justify-center lg:py-16">
+      <div class="mx-auto max-w-sm">
+        <p class="text-lg font-light mb-10">
+          Unlock the rest of this article <br> for $<%= item.price %>
+        </p>
+
+        <!-- Payment Button (mounted by the script above) -->
+        <div id="button-container" style="height: 3.75rem;"></div>
+
+        <p class="mt-6 text-xs leading-5 text-gray-600">Don’t have the Code Wallet app yet? <br>
+          <a href="https://www.getcode.com/#Download" target="_blank" class="underline">Download It Now</a> and get your first $1 free</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.fade-out-gradient {
+  position: relative;
+  transition: all 0.5s ease-in-out;
+}
+
+.fade-out-gradient::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(to bottom, transparent, #f3f4f6);
+  pointer-events: none;
+  z-index: 1; 
+}
+
+.twitter-tweet.twitter-tweet-rendered {
+    margin: auto;
+    margin-bottom: 30px !important;
+}
+
+blockquote {
+  padding-left: 20px;
+  font-style: italic;
+  font-family: serif;
+  font-size: x-large;
+  border-left: 10px solid #e1e4ea;
+  margin-left: 10px;
+}
+</style>

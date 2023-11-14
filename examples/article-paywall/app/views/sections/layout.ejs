@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code SDK Example</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <meta property="og:title" content="Early Release of the Code SDK">
+  <meta property="og:description" content="Code SDK Example">
+  <meta property="og:image" content="https://sdk-example.getcode.com/static/og_image.jpg">
+  <meta property="og:url" content="https://sdk-example.getcode.com">
+  <meta property="og:type" content="website">
+
+  <meta name="twitter:card" content="summary_large_image"></meta>
+  <meta name="twitter:site" content="@getcode" />
+  <meta name="twitter:creator" content="@getcode" />
+
+  <link href="/static/icon_32x32.png" rel="shortcut icon" type="image/x-icon">
+  <link href="/static/icon_256x256.png" rel="apple-touch-icon">
+</head>
+
+<body class="bg-white">
+  <div class="flex flex-col flex-1">
+    <%- include('header') %>
+
+    <div class="bg-gray-100 sm:pb-32 pb-16">
+      <div class="flex-grow mx-auto max-w-full md:max-w-2xl px-6 lg:max-w-7xl lg:px-8">
+        <!-- Main content -->
+        <%- body %>
+      </div>
+    </div>
+
+    <footer class="flex-none">
+
+      <%- include('footer') %>
+
+      <div class="hidden mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="border-t border-gray-100 py-10 text-center">
+          <p class="text-sm text-gray-500">© 2023 Code Inc. All rights reserved.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
