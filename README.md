@@ -1,3 +1,6 @@
+
+![examples](https://github.com/code-wallet/code-sdk-examples/assets/623790/1c66a220-4fab-4762-b7d3-2a3f1f064ecd)
+
 # code-sdk-examples
 This repository contains complete examples of using the Code SDK in a variety of languages and frameworks. The examples are intended to be used as a reference for developers integrating Code into their applications. This repository will grow over time as new features are added to the SDK.
 
